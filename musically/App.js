@@ -44,17 +44,17 @@ export default function App() {
         </View>
       </View>
 
-      <view style={styles.musicControlsContainer}>
+      <View style={styles.musicControlsContainer}>
         <TouchableOpacity>
-          <Ionicons name='partly-sunny-outline' size={35} color='#FFD369' />
+          <Ionicons name='play-skip-back-outline' size={35} color='#FFD369' />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Ionicons name='partly-circle' size={35} color='#FFD369' />
+          <Ionicons name='play-circle' size={75} color='#FFD369' />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Ionicons name='partly-skip-foward-outline' size={35} color='#FFD369' />
+          <Ionicons name='play-skip-forward-outline' size={35} color='#FFD369' />
         </TouchableOpacity>
-      </view>
+      </View>
 
       </View>
       <View style={styles.footer}>
@@ -72,6 +72,7 @@ export default function App() {
             <Ionicons name='ellipsis-horizontal' size={30} color="#888888" />
           </TouchableOpacity>
         </View>
+
       </View>
       <StatusBar style="light" />
     </SafeAreaView>
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
 
   },
-  ProgressLabelText:{
+  progressLabelText:{
     color: '#fff',
     fontWeight: '500',
   },
