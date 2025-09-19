@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Animated, Dimensions, FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -11,16 +11,18 @@ export default function App() {
   const [sound, setSound] = useState(null);
   const [songIndex, setSongIndex] = useState(0);
   const [songStatus, setSongStatus] = useState(null);
-  const [isPlaying, setPlaying] = useState(false);
-  const [isLooping, setLooping] = useState(false);
-
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isLooping, setIsLooping] = useState(false);
+  
   const songSlider = useRef(null);
   const scrollX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     scrollX.addListener(({value}) => {
       const index = Math.round(value / width);
-      setSongIndex(index)
+      setSongIndex(index);
+      //console.log(`ScrollX : ${value}`);
+      //console.log(index);
     });
   }, []);
 
@@ -60,10 +62,10 @@ export default function App() {
 
         <View>
           <Text style={[styles.songContent, styles.songTitle]}>
-            {songs[songOndex].title}
+            {songs[songIndex].title}
           </Text>
           <Text style={[styles.songContent, styles.songArtist]}>
-          {songs[songOndex].artist}
+            {songs[songIndex].artist}
           </Text>
         </View>
 
