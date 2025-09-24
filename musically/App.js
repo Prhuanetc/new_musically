@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Animated, Dimensions, FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Slider from '@react-native-community/slider';
+import { audio} from 'expo-av';
 import songs from './model/data';
 
 const { width, height } = Dimensions.get('window');
@@ -36,7 +37,57 @@ export default function App() {
     )
   };
 
-  return (
+  const loadSound = async () => {
+    const { sound } = await Audio.sound.createAsync(song[songIndex].url);
+    setSound(sound);
+    const status = await sound.getStatusAsync();
+    status.isLooping = isLooping;
+    await sound.setIsLoopingAsync(isLooping);
+    setSongStatus(status)
+    setIsPlaying(false)
+  }
+
+  seEffect(() => {
+    if (sound) {
+      sound.unloadAsync();
+    }
+    loadSound();
+    if (sound) {
+      sound.unloadAsync();
+    };
+  }, [songIndex] );
+
+  const play = async () => {
+    if (sound ) {
+      setIsPlaying(true);
+      await sound.playAsync();
+    }
+  }
+
+  const pause = async () => {
+    if (sound) {
+      setIsPlaying(false);
+      await sound.pauseAsync();
+    }
+  }
+
+  const handlePalyPause = async () => {
+    if (isPlaying) {
+      await pause ();
+    } else {
+      await Play();
+    }
+  }
+
+  const stop = async () => {
+    if (sound) {
+      await sound.setIsStopAsync();
+      sound.unloadAsync();
+      await loadSound();
+    }
+  }
+
+  return ( 
     <SafeAreaView style={styles.container}>
       <View style={styles.main}>
 
@@ -90,7 +141,7 @@ export default function App() {
           <TouchableOpacity>
             <Ionicons name='play-skip-back-outline' size={35} color='#FFD369' />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handlePalyPause}>
             <Ionicons name={isPlaying ? 'pause-circle' : 'play-circle'} size={75} color='#FFD369' />
           </TouchableOpacity>
           <TouchableOpacity>
